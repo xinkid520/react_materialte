@@ -10,8 +10,8 @@ let server={
     post:""
 };
 
-server.post=function (api,date,format) {
-    let params=format.stringify(date);
+server.post=function (api,date) {
+    let params=date;
     console.log(params);
     return new Promise(resolve=>{
             axios.post(api,params).then((res)=>{
@@ -21,6 +21,8 @@ server.post=function (api,date,format) {
 
     } )
 };
+
+
 // server.get=function (api,date) {
 //     let params=qs.stringify(date);
 //     return new Promise(resolve=>{

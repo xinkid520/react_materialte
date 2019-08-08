@@ -11,10 +11,12 @@ import DialogContent from "@material-ui/core/DialogContent";
 import Dialog from "@material-ui/core/Dialog";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import DialogContentText from "@material-ui/core/DialogContentText";
-import {_API_Login, TENSOREN_BULE} from "../Const";
+import {TENSOREN_BULE} from "../Const";
 import Cookies from "react-cookies";
 import App from "../../App";
 import Zoom from "@material-ui/core/Zoom";
+import {_API_Login} from "../../server/APInterface";
+import {RavenStatic as Raven} from "raven-js";
 
 const styles = theme => ({
     container: {
@@ -146,6 +148,10 @@ class Login extends React.Component {
         );
     }
 
+    componentDidCatch(error, errorInfo) {
+        Raven.captureException(error, {extra: errorInfo});
+    }
+
     handleChange = name => event => {
         this.setState({
             [name]: event.target.value
@@ -163,13 +169,15 @@ class Login extends React.Component {
 
 
     async login() {
+
         if (this.state.username !== "" && this.state.password !== "") {
-            let data = {"user_name": this.state.username, "password": this.state.password};
+            // let data = {"user_name": this.state.username, "password": this.state.password};
+            let data = "user_name=" + this.state.username + "&password=" + this.state.password;
             try {
                 const res = await _API_Login(data);
                 console.log(res);
-
-                if (res.status !== "500" && res.status !== "404" && res.data.value === true) {
+                data = res.data;
+                if (data.value === true) {
                     this.setState({
                         company_name: data.company_name,
                         email: data.email,

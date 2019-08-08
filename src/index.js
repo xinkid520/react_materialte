@@ -5,6 +5,9 @@ import 'antd-mobile/dist/antd-mobile.css'; // or 'antd-mobile/dist/antd-mobile.l
 
 import * as serviceWorker from './serviceWorker';
 import Login from "./components/User/Login";
+import Raven from 'raven-js';
+
+Raven.config('https://e43d245b9d754e10b375a2cd1bf653d5@sentry.io/1476088').install();
 // import Station from "./components/Main/Weather/Station";
 
 // ReactDOM.render(<Login />, document.getElementById('root'));

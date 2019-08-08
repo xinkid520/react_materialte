@@ -25,9 +25,13 @@ import ExpansionPanelActions from "@material-ui/core/ExpansionPanelActions";
 import Slide from "@material-ui/core/Slide";
 import Dialog from "@material-ui/core/Dialog";
 import Station from "./Station";
+import {RavenStatic as Raven} from "raven-js";
+import Zoom from "@material-ui/core/Zoom";
+
+
 
 function Transition(props) {
-    return <Slide direction="up" {...props} />;
+    return <Zoom direction="up" {...props} />;
 }
 
 const styles = theme => ({
@@ -62,7 +66,7 @@ const styles = theme => ({
         textAlign: "right",
         opacity: "0.8"
     }, buttonMargin: {
-        margin: theme.spacing.unit,
+        margin: 2,
     },
 });
 
@@ -184,6 +188,8 @@ class Weather extends React.Component {
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 <Typography component="div" color={"primary"} style={{width: "100%"}}>
+
+                                    {/*<MaterialUIPickers/>*/}
                                     {this.state.subperiodsArray.map((item, index) =>
                                         <Subperiods
                                             key={index}
@@ -302,6 +308,9 @@ class Weather extends React.Component {
         );
     }
 
+    componentDidCatch(error, errorInfo) {
+        Raven.captureException(error, {extra: errorInfo});
+    }
 
     onChangeState = name => event => {
         this.setState({
@@ -407,12 +416,12 @@ class Weather extends React.Component {
     };
 
     allStartTime = (key, date) => {
-        this.subperiods_start[key] = date + ";";
+        this.subperiods_start[key] = date ;
 
         alert(this.subperiods_start)
     };
     allEndTime = (key, date) => {
-        this.subperiods_end[key] = date + ";";
+        this.subperiods_end[key] = date ;
 
         alert(this.subperiods_end)
     };

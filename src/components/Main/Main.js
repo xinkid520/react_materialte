@@ -4,17 +4,18 @@ import {Button} from "@material-ui/core";
 import ReactDOM from "react-dom";
 import Login from "../User/Login";
 import Weather from "./Weather/Weather";
-import {_API_Create_typhoon} from "../Const";
+
 import Cookies from "react-cookies"
 import withStyles from "@material-ui/core/styles/withStyles";
+import {_API_Create_typhoon} from "../../server/APInterface";
 
 
 const styles = theme => ({
     button: {
         width: "50%",
         fontSize: "20px"
-    },byttonContent:{
-      margin:10
+    }, byttonContent: {
+        margin: 10
     }
 });
 
@@ -43,11 +44,11 @@ class Main extends Component {
                 <div style={classes.byttonContent}>
                     <Button color={"primary"} style={classes.button} disabled>保险+期货</Button>
                     <Button color={"primary"} style={classes.button} disabled>洪涝</Button>
-                </div >
-                <div  style={classes.byttonContent}>
+                </div>
+                <div style={classes.byttonContent}>
                     <Button color={"primary"} style={classes.button} disabled>径流</Button>
                     <Button color={"primary"} style={classes.button} disabled>植被</Button>
-                </div >
+                </div>
                 <div style={classes.byttonContent}>
                     <Button color={"primary"} style={classes.button} disabled>产量</Button>
                     <Button color={"primary"} style={classes.button} disabled>收入</Button>
@@ -61,7 +62,7 @@ class Main extends Component {
         );
     }
 
-     weatherClick=()=> {
+    weatherClick = () => {
         let orderNo = (Cookies.load('user')).indexOf(";");
         let username = Cookies.load("user").substr(0, orderNo);
         let data = {
@@ -79,7 +80,7 @@ class Main extends Component {
             event_number_covered: 0,
 
         };
-        const res =  _API_Create_typhoon(data);
+        const res = _API_Create_typhoon(data);
         if (res.value !== "")
             ReactDOM.render(<Weather/>, document.getElementById('root'));
     };
